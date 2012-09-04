@@ -36,8 +36,8 @@ local DefaultBaseExternalFontPath = 'assets/fonts/'
 local DefaultBaseImagePath = 'assets/img/'
 local DefaultBaseAudioPath = 'assets/audio/'
 
-local DefaultBaseAudioFormats = '.ogg|.wav|.mp3'
-local DefaultBaseImgFormats = '.png|.jpg'
+local DefaultBaseAudioFormats = {".ogg", ".wav", ".mp3"}
+local DefaultBaseImgFormats = {'.png|', '.jpg'}
 local DefaultBaseFontSize = 12
 
 -- Private helpers
@@ -49,7 +49,7 @@ end
 
 local function getFilePath(fileName,basePath,validFormats)
   local file
-  for ext in validFormats:gmatch('|*(%.%w+)|*') do
+  for ext in pairs(validFormats) do
     filePath = basePath .. fileName.. ext
     if love.filesystem.isFile(filePath) then return filePath end
   end
