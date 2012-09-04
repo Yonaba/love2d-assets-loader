@@ -37,7 +37,7 @@ local DefaultBaseImagePath = 'assets/img/'
 local DefaultBaseAudioPath = 'assets/audio/'
 
 local DefaultBaseAudioFormats = {".ogg", ".wav", ".mp3"}
-local DefaultBaseImgFormats = {'.png|', '.jpg'}
+local DefaultBaseImgFormats = {'.png', '.jpg'}
 local DefaultBaseFontSize = 12
 
 -- Private helpers
@@ -48,8 +48,8 @@ local checkDirExistence = function(path)
 end
 
 local function getFilePath(fileName,basePath,validFormats)
-  local file
-  for ext in pairs(validFormats) do
+  local filePath
+  for _,ext in ipairs(validFormats) do
     filePath = basePath .. fileName.. ext
     if love.filesystem.isFile(filePath) then return filePath end
   end
@@ -69,6 +69,15 @@ local baseImgMetatable = {__index = function(t,k)
   local file = getFilePath(k,t.__folder,DefaultBaseImgFormats)
   t[k] = love.graphics.newImage(file)
   return t[k]
+end}
+
+local baseExtFontMetatable = {__index = function(self,k)
+    self[k] = love.graphics.newFont(DefaultBaseExternalFontPath .. self.__fontFile)
+    return self[k]
+  end,
+  __call = function(self,k)
+    k = k or DefaultBaseFontSize
+    return self[k] 
 end}
       
 function setImgMeta(t)
@@ -136,14 +145,7 @@ function loader.init()
   foreach(love.filesystem.enumerate(DefaultBaseExternalFontPath), function(_,font)
   local f = font:match('(.+)%.ttf$')
     if f then
-      loader.externalFont[f] = setmetatable({__name = font},{__index = function(self,k)
-      self[k] = love.graphics.newFont(DefaultBaseExternalFontPath .. self.__name)
-      return self[k]
-      end,
-      __call = function(self,k)
-        k = k or DefaultBaseFontSize
-        return self[k] 
-      end})
+      loader.externalFont[f] = setmetatable({__fontFile = font},baseExtFontMetatable)
     end    
   end)
   
