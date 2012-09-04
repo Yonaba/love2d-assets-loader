@@ -115,7 +115,6 @@ Say that in your base image folder (here, __"img/"__) you have the following tre
 	
 ```lua
 function love.draw()
-  -- Assuming you have a 'player.png' or 'player.jpg' file in your base image folder
   love.graphics.draw(loader.Image.Maps.Ground.g1,0,0) -- draws 'img/Maps/Ground/g1.png'
   love.graphics.draw(loader.Image.Maps.map2,0,0) -- draws 'img/Maps/map2.jpg'
   love.graphics.draw(loader.Image.player,0,0) -- draws 'img/player.png'
