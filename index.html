@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Love2d-assets-loader by Yonaba</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Love2d-assets-loader</h1>
+        <p>Assets loader and manager for Löve2D Framework</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/Yonaba/love2d-assets-loader" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/Yonaba/love2d-assets-loader/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/Yonaba/love2d-assets-loader/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <p><strong>love2d-assets-loader</strong> is a library for assets loading.
+It works with <a href="http://love2d.org">Löve2D</a> framework (compatible with Löve <strong>0.8.0</strong>).
+The aim of this utility is to simplify in-game assets (fonts, audio, images) loading and management.</p>
+
+<p><strong>love2d-assets-loader</strong> have been highy inspired by <a href="https://github.com/vrld/">Vrld</a>'s <a href="https://github.com/vrld/Princess/blob/master/main.lua">Proxy</a> function.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>
+<strong>Automatic resources caching</strong> : when an asset is called for the first time, it is loaded and stored within the loader. Next calls will return the stored value.</li>
+<li>Grants access to Löve's default <a href="https://love2d.org/wiki/Font">font</a> (<strong>Vera.ttf</strong>)</li>
+<li>Loads external <a href="https://en.wikipedia.org/wiki/TrueType">True Type</a> (<strong>.ttf</strong>) <a href="https://love2d.org/wiki/Font">fonts</a> with custom size</li>
+<li>Loads <a href="https://en.wikipedia.org/wiki/WAV">.wav</a>, <a href="http://en.wikipedia.org/wiki/Ogg">.ogg</a> and <a href="http://en.wikipedia.org/wiki/MP3">.mp3</a> audio formats as <a href="https://love2d.org/wiki/SourceType">static or streaming</a> <a href="https://love2d.org/wiki/Source">sources</a>.</li>
+<li>Loads <a href="http://en.wikipedia.org/wiki/PNG">.png</a> and <a href="https://en.wikipedia.org/wiki/JPEG">.jpg</a> <a href="https://love2d.org/wiki/Image">images</a>
+</li>
+</ul><h2>Installation</h2>
+
+<p>Put the file <a href="https://github.com/Yonaba/love2d-assets-loader/blob/master/Loader/loader.lua">loader.lua</a> inside your project folder.<br>
+Call it using the <strong>require</strong> function.<br>
+It will return a reference to the public interface as a regular Lua table.</p>
+
+<h2>Usage</h2>
+
+<p><strong>love2d-assets-loader</strong> is very simple to use.
+Say that your project folder is organized this way:</p>
+
+<p></p><img src="http://ompldr.org/vZmN3ZQ" alt="project folder tree" width="161" height="155" border="0">
+
+<p>You will have to specify the paths to your <strong>Audio</strong>, <strong>Font</strong> and <strong>Image</strong> assets to the loader, and then <strong>initialize</strong> it.
+This should be done inside <tt>love.load</tt> callback.</p>
+
+<div class="highlight"><pre><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>  
+  <span class="n">loader</span> <span class="o">=</span> <span class="nb">require</span> <span class="s1">'</span><span class="s">loader'</span>
+  <span class="n">loader</span><span class="p">.</span><span class="n">setBaseImageDir</span><span class="p">(</span><span class="s1">'</span><span class="s">img'</span><span class="p">)</span>
+  <span class="n">loader</span><span class="p">.</span><span class="n">setBaseAudioDir</span><span class="p">(</span><span class="s1">'</span><span class="s">audio'</span><span class="p">)</span>
+  <span class="n">loader</span><span class="p">.</span><span class="n">setBaseFontDir</span><span class="p">(</span><span class="s1">'</span><span class="s">fonts'</span><span class="p">)</span>
+  <span class="n">loader</span><span class="p">.</span><span class="n">init</span><span class="p">()</span> <span class="c1">-- Do not forget this!</span>
+<span class="k">end</span>  
+</pre></div>
+
+<p>And that's it!</p>
+
+<h2>Loading Fonts</h2>
+
+<h3>Loading Löve default font</h3>
+
+<p>Löve default font can be accessed via <tt>loader.Font</tt></p>
+
+<div class="highlight"><pre><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Font</span><span class="p">[</span><span class="mi">15</span><span class="p">])</span> <span class="c1">-- Love default with size 15</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Font</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span> <span class="c1">-- Same as before</span>
+
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Font</span><span class="p">[</span><span class="mi">18</span><span class="p">])</span> <span class="c1">-- Love default with size 18</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Font</span><span class="p">(</span><span class="mi">18</span><span class="p">))</span> <span class="c1">-- Same as before</span>
+
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Font</span><span class="p">())</span> <span class="c1">-- Whith no arg, will use a customisable default font size</span>
+<span class="k">end</span>
+</pre></div>
+
+<h3>Loading custom True-Type fonts</h3>
+
+<p>Löve custom fonts can be accessed via <tt>loader.externalFont</tt></p>
+
+<div class="highlight"><pre><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+  <span class="c1">-- Assuming you have a font named Arial.ttf inside your base font folder.</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">externalFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">[</span><span class="mi">15</span><span class="p">])</span> <span class="c1">-- Arial font size 15</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">externalFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span> <span class="c1">-- Same as before</span>
+
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">externalFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">[</span><span class="mi">18</span><span class="p">])</span> <span class="c1">-- Arial font size 18</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">externalFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">(</span><span class="mi">18</span><span class="p">))</span> <span class="c1">-- Same as before</span>
+
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">externalFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">())</span> <span class="c1">-- Whith no arg, will use a customisable default font size</span>
+<span class="k">end</span>
+</pre></div>
+
+<h2>Loading Audio</h2>
+
+<p>Audio files (.ogg, .wav and .mp3) can be loaded via <tt>loader.streamingAudio</tt> (streaming playback) or <tt>loader.staticAudio</tt> (static playback).</p>
+
+<div class="highlight"><pre>  <span class="c1">-- Assuming you have an audio file name 'Love.ogg' in your base audio folder</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">streamingAudio</span><span class="p">.</span><span class="n">Love</span><span class="p">)</span> <span class="c1">-- Will be streamed</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">staticAudio</span><span class="p">.</span><span class="n">Love</span><span class="p">)</span> <span class="c1">-- will be decoded before playback</span>
+
+  <span class="c1">-- Assuming you have an audio file name 'tick.wav' in your base audio folder</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">streamingAudio</span><span class="p">.</span><span class="n">tick</span><span class="p">)</span> <span class="c1">-- Will be streamed</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">staticAudio</span><span class="p">.</span><span class="n">tick</span><span class="p">)</span> <span class="c1">-- will be decoded before playback</span>
+
+  <span class="c1">-- Assuming you have an audio file name 'stream.mp3' in your base audio folder</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">streamingAudio</span><span class="p">.</span><span class="n">stream</span><span class="p">)</span> <span class="c1">-- Will be streamed</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">staticAudio</span><span class="p">.</span><span class="n">stream</span><span class="p">)</span> <span class="c1">-- will be decoded before playback</span>
+</pre></div>
+
+<h2>Loading Images</h2>
+
+<p>Images files (.png and .jpg) can be loaded via <tt>loader.Image</tt></p>
+
+<div class="highlight"><pre><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+  <span class="c1">-- Assuming you have a 'player.png' or 'player.jpg' file in your base image folder</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Image</span><span class="p">.</span><span class="n">player</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>A very interesting feature here is that <tt>loader.Image</tt> supports nested folders.
+Say that in your base image folder (here, <strong>"img/"</strong>) you have the following tree:</p>
+
+<pre><code>img/
+--&gt; (folder) Maps/
+   --&gt; (file) map1.jpg
+   --&gt; (file) map2.jpg
+     --&gt; (folder) Ground/
+            --&gt; (file) g1.png
+            --&gt; (file) g2.png
+--&gt; (file) player.png 
+</code></pre>
+
+<div class="highlight"><pre><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
+  <span class="c1">-- Assuming you have a 'player.png' or 'player.jpg' file in your base image folder</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Image</span><span class="p">.</span><span class="n">Maps</span><span class="p">.</span><span class="n">Ground</span><span class="p">.</span><span class="n">g1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="c1">-- draws 'img/Maps/Ground/g1.png'</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Image</span><span class="p">.</span><span class="n">Maps</span><span class="p">.</span><span class="n">map2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="c1">-- draws 'img/Maps/map2.jpg'</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">draw</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Image</span><span class="p">.</span><span class="n">player</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="c1">-- draws 'img/player.png'</span>
+<span class="k">end</span>
+</pre></div>
+
+<h2>Public Interface</h2>
+
+<h3>Setters</h3>
+
+<ul>
+<li>
+<tt>loader.setBaseFontDir(dir)</tt>: sets <tt>dir</tt> as the base font folder.</li>
+<li>
+<tt>loader.setBaseImageDir(dir)</tt>: sets <tt>dir</tt> as the base image folder</li>
+<li>
+<tt>loader.setBaseAudioDir(dir)</tt>: sets <tt>dir</tt> as the base audio folder</li>
+<li>
+<tt>loader.setBaseFontSize(integer)</tt>: sets <tt>integer</tt> as the default font size</li>
+</ul><h3>Getters</h3>
+
+<ul>
+<li>
+<tt>loader.getBaseFontDir(dir)</tt>: returns the base font folder.</li>
+<li>
+<tt>loader.getBaseImageDir(dir)</tt>: returns the base image folder</li>
+<li>
+<tt>loader.getBaseAudioDir(dir)</tt>: returns the base audio folder</li>
+<li>
+<tt>loader.getBaseFontSize(integer)</tt>: returns the default font size</li>
+</ul><h3>Initialization</h3>
+
+<ul>
+<li>
+<tt>loader.init()</tt>: Inits the loader. Should be called after using setters.</li>
+</ul><h3>Loading routines</h3>
+
+<ul>
+<li>
+<tt>loader.Font</tt>: access to Löve default font</li>
+<li>
+<tt>loader.externalFont</tt>: access to custom true type fonts</li>
+<li>
+<tt>loader.streamingAudio</tt>: loads audio files for streaming playback.</li>
+<li>
+<tt>loader.staticAudio</tt>: loads audio files for static playback.</li>
+<li>
+<tt>loader.Image</tt>: loads images</li>
+</ul><h2>License</h2>
+
+<p>This work is released under the terms of <a href="http://www.opensource.org/licenses/mit-license.php">MIT-LICENSE</a><br>
+Copyright (c) 2012 Roland Yonaba</p>
+
+<pre><code>Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+</code></pre>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/Yonaba">Yonaba</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-33850683-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
