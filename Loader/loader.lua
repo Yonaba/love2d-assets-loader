@@ -159,7 +159,7 @@ function loader.init()
     return self[k] 
   end})
 
-  -- Load static audio sources
+  -- Load streaming audio sources
   loader.streamingAudio = setmetatable({}, {__index = function(self,k)
     self[k] = love.audio.newSource(getFilePath(k,DefaultBaseAudioPath,DefaultBaseAudioFormats),'stream')
     return self[k]
