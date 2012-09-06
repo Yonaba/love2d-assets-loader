@@ -1,4 +1,4 @@
-__love2d-assets-loader__ is a library for assets loading.
+__love2d-assets-loader__ is a library for assets loading on demand.
 It works with [Löve2D](http://love2d.org) framework (compatible with Löve __0.8.0__).
 The aim of this utility is to simplify in-game assets (fonts, audio, images) loading and management.
 
@@ -6,6 +6,7 @@ __love2d-assets-loader__ have been highy inspired by [Vrld](https://github.com/v
 
 ##Features
 
+* Loads required assets __on demand__.
 * __Automatic resources caching__ : when an asset is called for the first time, it is loaded and stored within the loader. Next calls will return the stored value.
 * Grants access to Löve's default [font](https://love2d.org/wiki/Font) (__Vera.ttf__)
 * Loads external [True Type](https://en.wikipedia.org/wiki/TrueType) (__.ttf__) [fonts](https://love2d.org/wiki/Font) with custom size
