@@ -123,53 +123,62 @@ loader.getBaseAudioDir = function() return DefaultBaseAudioPath end
 loader.getBaseFontSize = function() return DefaultBaseFontSize end
 
 
-loader.Font = {}
-loader.externalFont = {}
-loader.Image = {}
-loader.staticAudio = {}
-loader.streamingAudio = {}
+
+
+
+
+
 
 function loader.init()  
   -- Access to Love's default font (Vera.ttf)
-  loader.Font = setmetatable({}, {__index = function(self,k)
-    assert(type(k) == 'number' and floor(k) == k, ('Wrong argument type. Number expected, got %s'):format(type(k)))
-    self[k] = love.graphics.newFont(k)
-    return self[k]
-    end,
-    __call = function(self,k) 
-      k = k or DefaultBaseFontSize 
-      return self[k] 
-  end})
+  if love._.modules.graphics then
+    loader.Font = {}
+    loader.Font = setmetatable({}, {__index = function(self,k)
+      assert(type(k) == 'number' and floor(k) == k, ('Wrong argument type. Number expected, got %s'):format(type(k)))
+      self[k] = love.graphics.newFont(k)
+      return self[k]
+      end,
+      __call = function(self,k) 
+        k = k or DefaultBaseFontSize 
+        return self[k] 
+    end})
   
-  -- Custom *.ttf font loading 
-  foreach(love.filesystem.enumerate(DefaultBaseExternalFontPath), function(_,font)
-  local f = font:match('(.+)%.ttf$')
-    if f then
-      loader.externalFont[f] = setmetatable({__fontFile = font},baseExtFontMetatable)
-    end    
-  end)
+    -- Custom *.ttf font loading 
+    loader.externalFont = {}
+    foreach(love.filesystem.enumerate(DefaultBaseExternalFontPath), function(_,font)
+    local f = font:match('(.+)%.ttf$')
+      if f then
+        loader.externalFont[f] = setmetatable({__fontFile = font},baseExtFontMetatable)
+      end    
+    end)
+  end
   
   -- Image loading
-  loader.Image = recurseSetImgMeta(getFolderTree(DefaultBaseImagePath))
-  
+  if love._.modules.graphics and love._modules.image then
+    loader.Image = {}
+    loader.Image = recurseSetImgMeta(getFolderTree(DefaultBaseImagePath))
+  end
   -- Load static audio sources
-  loader.staticAudio = setmetatable({}, {__index = function(self,k)
-    self[k] = love.audio.newSource(getFilePath(k,DefaultBaseAudioPath,DefaultBaseAudioFormats),'static')
-    return self[k]
-    end,
-    __call = function(self,k) 
-    return self[k] 
-  end})
-
-  -- Load streaming audio sources
-  loader.streamingAudio = setmetatable({}, {__index = function(self,k)
-    self[k] = love.audio.newSource(getFilePath(k,DefaultBaseAudioPath,DefaultBaseAudioFormats),'stream')
-    return self[k]
-    end,
-    __call = function(self,k) 
+  if love._modules.audio and love._modules.sound then
+    loader.staticAudio = {}
+    loader.staticAudio = setmetatable({}, {__index = function(self,k)
+      self[k] = love.audio.newSource(getFilePath(k,DefaultBaseAudioPath,DefaultBaseAudioFormats),'static')
+      return self[k]
+      end,
+      __call = function(self,k) 
       return self[k] 
-  end})
+    end})
 
+    -- Load streaming audio sources
+    loader.streamingAudio = {}
+    loader.streamingAudio = setmetatable({}, {__index = function(self,k)
+      self[k] = love.audio.newSource(getFilePath(k,DefaultBaseAudioPath,DefaultBaseAudioFormats),'stream')
+      return self[k]
+      end,
+      __call = function(self,k) 
+        return self[k] 
+    end})
+  end
 end
 
 return loader
