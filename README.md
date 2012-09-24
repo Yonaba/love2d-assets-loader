@@ -58,37 +58,37 @@ end
 
 ###Loading custom True-Type fonts
 
-Löve custom fonts can be accessed via <tt>loader.externalFont</tt>
+Löve custom fonts can be accessed via <tt>loader.extFont</tt>
 
 ```lua
 function love.draw()
   -- Assuming you have a font named Arial.ttf inside your base font folder.
-  love.graphics.setFont(loader.externalFont.Arial[15]) -- Arial font size 15
-  love.graphics.setFont(loader.externalFont.Arial(15)) -- Same as before
+  love.graphics.setFont(loader.extFont.Arial[15]) -- Arial font size 15
+  love.graphics.setFont(loader.extFont.Arial(15)) -- Same as before
   
-  love.graphics.setFont(loader.externalFont.Arial[18]) -- Arial font size 18
-  love.graphics.setFont(loader.externalFont.Arial(18)) -- Same as before
+  love.graphics.setFont(loader.extFont.Arial[18]) -- Arial font size 18
+  love.graphics.setFont(loader.extFont.Arial(18)) -- Same as before
   
-  love.graphics.setFont(loader.externalFont.Arial()) -- Whith no arg, will use a customisable default font size
+  love.graphics.setFont(loader.extFont.Arial()) -- Whith no arg, will use a customisable default font size
 end
 ```
 
 ##Loading Audio
 
-Audio files (.ogg, .wav and .mp3) can be loaded via <tt>loader.streamingAudio</tt> (streaming playback) or <tt>loader.staticAudio</tt> (static playback).
+Audio files (.ogg, .wav and .mp3) can be loaded via <tt>loader.Audio.Stream</tt> (streaming playback) or <tt>loader.Audio.Static</tt> (static playback).
 
 ```lua
   -- Assuming you have an audio file name 'Love.ogg' in your base audio folder
-  love.audio.play(loader.streamingAudio.Love) -- Will be streamed
-  love.audio.play(loader.staticAudio.Love) -- will be decoded before playback
+  love.audio.play(loader.Audio.Stream.Love) -- Will be streamed
+  love.audio.play(loader.Audio.Static.Love) -- will be decoded before playback
   
   -- Assuming you have an audio file name 'tick.wav' in your base audio folder
-  love.audio.play(loader.streamingAudio.tick) -- Will be streamed
-  love.audio.play(loader.staticAudio.tick) -- will be decoded before playback
+  love.audio.play(loader.Audio.Stream.tick) -- Will be streamed
+  love.audio.play(loader.Audio.Static.tick) -- will be decoded before playback
 
   -- Assuming you have an audio file name 'stream.mp3' in your base audio folder
-  love.audio.play(loader.streamingAudio.stream) -- Will be streamed
-  love.audio.play(loader.staticAudio.stream) -- will be decoded before playback
+  love.audio.play(loader.Audio.Stream.stream) -- Will be streamed
+  love.audio.play(loader.Audio.Static.stream) -- will be decoded before playback
 ```
 
 ##Loading Images
@@ -140,10 +140,23 @@ end
 
 ###Loading routines
 * <tt>loader.Font</tt>: access to Löve default font
-* <tt>loader.externalFont</tt>: access to custom true type fonts
-* <tt>loader.streamingAudio</tt>: loads audio files for streaming playback.
-* <tt>loader.staticAudio</tt>: loads audio files for static playback.
+* <tt>loader.extFont</tt>: access to custom true type fonts
+* <tt>loader.Audio.Stream</tt>: loads audio files for streaming playback.
+* <tt>loader.Audio.Static</tt>: loads audio files for static playback.
 * <tt>loader.Image</tt>: loads images
+
+##Final Notes
+
+__love2d-assets-loader__ checks for <tt>love</tt> namespace before running, to prevent this lib being used
+without [Love2D](https://love2d.org).
+Also, parts of __love2d-assets-loader__ are relevant to [Love2D](https://love2d.org)'s modules.
+
+* <tt>loader.Audio</tt> requires <tt>love.audio</tt> and <tt>love.sound</tt>
+* <tt>loader.Image</tt> requires <tt>love.image</tt> and <tt>love.graphics</tt>
+* <tt>loader.Font</tt> and <tt>loader.extFont</tt> both require <tt>love.graphics</tt>
+
+Be sure to have these modules activated through your (configuration file](https://love2d.org/wiki/Config_Files).
+
 
 ##License
 This work is released under the terms of [MIT-LICENSE](http://www.opensource.org/licenses/mit-license.php)<br/>
