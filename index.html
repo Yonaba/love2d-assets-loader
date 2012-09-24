@@ -102,35 +102,35 @@ This should be done inside <tt>love.load</tt> callback.</p>
 
 <h3>Loading custom True-Type fonts</h3>
 
-<p>Löve custom fonts can be accessed via <tt>loader.externalFont</tt></p>
+<p>Löve custom fonts can be accessed via <tt>loader.extFont</tt></p>
 
 <div class="highlight"><pre><span class="k">function</span> <span class="nc">love</span><span class="p">.</span><span class="nf">draw</span><span class="p">()</span>
   <span class="c1">-- Assuming you have a font named Arial.ttf inside your base font folder.</span>
-  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">externalFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">[</span><span class="mi">15</span><span class="p">])</span> <span class="c1">-- Arial font size 15</span>
-  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">externalFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span> <span class="c1">-- Same as before</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">extFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">[</span><span class="mi">15</span><span class="p">])</span> <span class="c1">-- Arial font size 15</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">extFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span> <span class="c1">-- Same as before</span>
 
-  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">externalFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">[</span><span class="mi">18</span><span class="p">])</span> <span class="c1">-- Arial font size 18</span>
-  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">externalFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">(</span><span class="mi">18</span><span class="p">))</span> <span class="c1">-- Same as before</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">extFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">[</span><span class="mi">18</span><span class="p">])</span> <span class="c1">-- Arial font size 18</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">extFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">(</span><span class="mi">18</span><span class="p">))</span> <span class="c1">-- Same as before</span>
 
-  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">externalFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">())</span> <span class="c1">-- Whith no arg, will use a customisable default font size</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">graphics</span><span class="p">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">extFont</span><span class="p">.</span><span class="n">Arial</span><span class="p">())</span> <span class="c1">-- Whith no arg, will use a customisable default font size</span>
 <span class="k">end</span>
 </pre></div>
 
 <h2>Loading Audio</h2>
 
-<p>Audio files (.ogg, .wav and .mp3) can be loaded via <tt>loader.streamingAudio</tt> (streaming playback) or <tt>loader.staticAudio</tt> (static playback).</p>
+<p>Audio files (.ogg, .wav and .mp3) can be loaded via <tt>loader.Audio.Stream</tt> (streaming playback) or <tt>loader.Audio.Static</tt> (static playback).</p>
 
 <div class="highlight"><pre>  <span class="c1">-- Assuming you have an audio file name 'Love.ogg' in your base audio folder</span>
-  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">streamingAudio</span><span class="p">.</span><span class="n">Love</span><span class="p">)</span> <span class="c1">-- Will be streamed</span>
-  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">staticAudio</span><span class="p">.</span><span class="n">Love</span><span class="p">)</span> <span class="c1">-- will be decoded before playback</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Audio</span><span class="p">.</span><span class="n">Stream</span><span class="p">.</span><span class="n">Love</span><span class="p">)</span> <span class="c1">-- Will be streamed</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Audio</span><span class="p">.</span><span class="n">Static</span><span class="p">.</span><span class="n">Love</span><span class="p">)</span> <span class="c1">-- will be decoded before playback</span>
 
   <span class="c1">-- Assuming you have an audio file name 'tick.wav' in your base audio folder</span>
-  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">streamingAudio</span><span class="p">.</span><span class="n">tick</span><span class="p">)</span> <span class="c1">-- Will be streamed</span>
-  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">staticAudio</span><span class="p">.</span><span class="n">tick</span><span class="p">)</span> <span class="c1">-- will be decoded before playback</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Audio</span><span class="p">.</span><span class="n">Stream</span><span class="p">.</span><span class="n">tick</span><span class="p">)</span> <span class="c1">-- Will be streamed</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Audio</span><span class="p">.</span><span class="n">Static</span><span class="p">.</span><span class="n">tick</span><span class="p">)</span> <span class="c1">-- will be decoded before playback</span>
 
   <span class="c1">-- Assuming you have an audio file name 'stream.mp3' in your base audio folder</span>
-  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">streamingAudio</span><span class="p">.</span><span class="n">stream</span><span class="p">)</span> <span class="c1">-- Will be streamed</span>
-  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">staticAudio</span><span class="p">.</span><span class="n">stream</span><span class="p">)</span> <span class="c1">-- will be decoded before playback</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Audio</span><span class="p">.</span><span class="n">Stream</span><span class="p">.</span><span class="n">stream</span><span class="p">)</span> <span class="c1">-- Will be streamed</span>
+  <span class="n">love</span><span class="p">.</span><span class="n">audio</span><span class="p">.</span><span class="n">play</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="n">Audio</span><span class="p">.</span><span class="n">Static</span><span class="p">.</span><span class="n">stream</span><span class="p">)</span> <span class="c1">-- will be decoded before playback</span>
 </pre></div>
 
 <h2>Loading Images</h2>
@@ -198,14 +198,32 @@ Say that in your base image folder (here, <strong>"img/"</strong>) you have the 
 <li>
 <tt>loader.Font</tt>: access to Löve default font</li>
 <li>
-<tt>loader.externalFont</tt>: access to custom true type fonts</li>
+<tt>loader.extFont</tt>: access to custom true type fonts</li>
 <li>
-<tt>loader.streamingAudio</tt>: loads audio files for streaming playback.</li>
+<tt>loader.Audio.Stream</tt>: loads audio files for streaming playback.</li>
 <li>
-<tt>loader.staticAudio</tt>: loads audio files for static playback.</li>
+<tt>loader.Audio.Static</tt>: loads audio files for static playback.</li>
 <li>
 <tt>loader.Image</tt>: loads images</li>
-</ul><h2>License</h2>
+</ul><h2>Final Notes</h2>
+
+<p><strong>love2d-assets-loader</strong> checks for <tt>love</tt> namespace before running, to prevent this lib being used
+without <a href="https://love2d.org">Love2D</a>.
+Also, parts of <strong>love2d-assets-loader</strong> are relevant to <a href="https://love2d.org">Love2D</a>'s modules.</p>
+
+<ul>
+<li>
+<tt>loader.Audio</tt> requires <tt>love.audio</tt> and <tt>love.sound</tt>
+</li>
+<li>
+<tt>loader.Image</tt> requires <tt>love.image</tt> and <tt>love.graphics</tt>
+</li>
+<li>
+<tt>loader.Font</tt> and <tt>loader.extFont</tt> both require <tt>love.graphics</tt>
+</li>
+</ul><p>Be sure to have these modules activated through your <a href="https://love2d.org/wiki/Config_Files">configuration file</a>.</p>
+
+<h2>License</h2>
 
 <p>This work is released under the terms of <a href="http://www.opensource.org/licenses/mit-license.php">MIT-LICENSE</a><br>
 Copyright (c) 2012 Roland Yonaba</p>
