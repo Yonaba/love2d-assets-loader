@@ -155,7 +155,7 @@ Also, parts of __love2d-assets-loader__ are relevant to [Love2D](https://love2d.
 * <tt>loader.Image</tt> requires <tt>love.image</tt> and <tt>love.graphics</tt>
 * <tt>loader.Font</tt> and <tt>loader.extFont</tt> both require <tt>love.graphics</tt>
 
-Be sure to have these modules activated through your (configuration file](https://love2d.org/wiki/Config_Files).
+Be sure to have these modules activated through your [configuration file](https://love2d.org/wiki/Config_Files).
 
 
 ##License
