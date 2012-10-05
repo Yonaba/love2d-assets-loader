@@ -24,7 +24,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 assert(love, 'Love 2D framework is required')
 
 -- loader version
-local _VERSION = "0.2"
+local _VERSION = "0.2.1"
 
 -- Internalization
 local foreach = table.foreach
@@ -36,7 +36,7 @@ local DefaultBaseExternalFontPath = 'assets/fonts/'
 local DefaultBaseImagePath = 'assets/img/'
 local DefaultBaseAudioPath = 'assets/audio/'
 
-local DefaultBaseAudioFormats = {".ogg", ".wav", ".mp3"}
+local DefaultBaseAudioFormats = {'.ogg', '.wav', '.mp3'}
 local DefaultBaseImgFormats = {'.png', '.jpg'}
 local DefaultBaseFontSize = 12
 
@@ -71,6 +71,15 @@ local baseImgMetatable = {__index = function(t,k)
   return t[k]
 end}
 
+local baseFontMetatable = {__index = function(self,k)
+    self[k] = love.graphics.newFont(k)
+    return self[k]
+  end,
+  __call = function(self,k) 
+    k = k or DefaultBaseFontSize 
+    return self[k] 
+  end}
+    
 local baseExtFontMetatable = {__index = function(self,k)
     self[k] = love.graphics.newFont(DefaultBaseExternalFontPath .. self.__fontFile)
     return self[k]
@@ -79,7 +88,23 @@ local baseExtFontMetatable = {__index = function(self,k)
     k = k or DefaultBaseFontSize
     return self[k] 
 end}
-      
+
+local baseAudioStaticMetatable = {__index = function(self,k)
+    self[k] = love.audio.newSource(getFilePath(k,DefaultBaseAudioPath,DefaultBaseAudioFormats),'static')
+    return self[k]
+  end,
+  __call = function(self,k) 
+    return self[k] 
+end}
+ 
+local baseAudioStreamMetatable = {__index = function(self,k)
+    self[k] = love.audio.newSource(getFilePath(k,DefaultBaseAudioPath,DefaultBaseAudioFormats),'stream')
+    return self[k]
+  end,
+  __call = function(self,k) 
+    return self[k] 
+end}     
+
 function setImgMeta(t)
   return setmetatable(t,baseImgMetatable)
 end
@@ -126,15 +151,7 @@ function loader.init()
   -- Access to Love's default font (Vera.ttf)
   if love._modules.graphics then
     loader.Font = {}
-    loader.Font = setmetatable({}, {__index = function(self,k)
-      assert(type(k) == 'number' and floor(k) == k, ('Wrong argument type. Number expected, got %s'):format(type(k)))
-      self[k] = love.graphics.newFont(k)
-      return self[k]
-      end,
-      __call = function(self,k) 
-        k = k or DefaultBaseFontSize 
-        return self[k] 
-    end})
+    loader.Font = setmetatable({}, baseFontMetatable)
   
     -- Custom *.ttf font loading 
     loader.extFont = {}
@@ -153,24 +170,11 @@ function loader.init()
   -- Load static audio sources
   if love._modules.audio and love._modules.sound then
     loader.Audio = {}
-    loader.Audio.Static = setmetatable({}, {__index = function(self,k)
-      self[k] = love.audio.newSource(getFilePath(k,DefaultBaseAudioPath,DefaultBaseAudioFormats),'static')
-      return self[k]
-      end,
-      __call = function(self,k) 
-      return self[k] 
-    end})
+    loader.Audio.Static = setmetatable({}, baseAudioStaticMetatable)
 
     -- Load streaming audio sources
-    loader.Audio.Stream = setmetatable({}, {__index = function(self,k)
-      self[k] = love.audio.newSource(getFilePath(k,DefaultBaseAudioPath,DefaultBaseAudioFormats),'stream')
-      return self[k]
-      end,
-      __call = function(self,k) 
-        return self[k] 
-    end})
+    loader.Audio.Stream = setmetatable({}, baseAudioStreamMetatable)
   end
-  
 end
 
 return loader
