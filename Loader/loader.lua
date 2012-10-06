@@ -24,7 +24,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 assert(love, 'Love 2D framework is required')
 
 -- loader version
-local _VERSION = "0.2.1"
+local _VERSION = "0.2.2"
 
 -- Internalization
 local foreach = table.foreach
@@ -37,7 +37,7 @@ local DefaultBaseImagePath = 'assets/img/'
 local DefaultBaseAudioPath = 'assets/audio/'
 
 local DefaultBaseAudioFormats = {'.ogg', '.wav', '.mp3'}
-local DefaultBaseImgFormats = {'.png', '.jpg'}
+local DefaultBaseImgFormats = {'.png', '.jpg', '.bmp'}
 local DefaultBaseFontSize = 12
 
 -- Private helpers

@@ -1,5 +1,8 @@
 #Version history#
 
+##0.2.2 (10/06/12)
+* Added support for [Bitmap](http://en.wikipedia.org/wiki/BMP_file_format) loading
+
 ##0.2.1 (10/05/12)
 * Code improvements (reusing tables)
 

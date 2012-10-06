@@ -11,7 +11,7 @@ __love2d-assets-loader__ have been highy inspired by [Vrld](https://github.com/v
 * Grants access to Löve's default [font](https://love2d.org/wiki/Font) (__Vera.ttf__)
 * Loads external [True Type](https://en.wikipedia.org/wiki/TrueType) (__.ttf__) [fonts](https://love2d.org/wiki/Font) with custom size
 * Loads [.wav](https://en.wikipedia.org/wiki/WAV), [.ogg](http://en.wikipedia.org/wiki/Ogg) and [.mp3](http://en.wikipedia.org/wiki/MP3) audio formats as [static or streaming](https://love2d.org/wiki/SourceType) [sources](https://love2d.org/wiki/Source).
-* Loads [.png](http://en.wikipedia.org/wiki/PNG) and [.jpg](https://en.wikipedia.org/wiki/JPEG) [images](https://love2d.org/wiki/Image)
+* Loads [.png](http://en.wikipedia.org/wiki/PNG), [.jpg](https://en.wikipedia.org/wiki/JPEG) and [.bmp](http://en.wikipedia.org/wiki/BMP_file_format) [images](https://love2d.org/wiki/Image)
 
 ##Installation
 Put the file [loader.lua](https://github.com/Yonaba/love2d-assets-loader/blob/master/Loader/loader.lua) inside your project folder.<br/>
