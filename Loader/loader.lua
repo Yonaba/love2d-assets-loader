@@ -24,7 +24,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 assert(love, 'Love 2D framework is required')
 
 -- loader version
-local _VERSION = "0.2.2"
+local _VERSION = "0.2.3"
 
 -- Internalization
 local foreach = table.foreach
@@ -39,6 +39,13 @@ local DefaultBaseAudioPath = 'assets/audio/'
 local DefaultBaseAudioFormats = {'.ogg', '.wav', '.mp3'}
 local DefaultBaseImgFormats = {'.png', '.jpg', '.bmp'}
 local DefaultBaseFontSize = 12
+
+local enumdir
+if love.filesystem.enumerate then
+  enumdir = love.filesystem.enumerate
+elseif love.filesystem.getDirectoryItems then
+  enumdir = love.filesystem.getDirectoryItems
+end
 
 -- Private helpers
 local checkDirExistence = function(path) 
@@ -57,7 +64,7 @@ end
 
 local function getFolderTree(baseFolder)
   local tree = {__folder = baseFolder}
-  for i,v in ipairs(love.filesystem.enumerate(baseFolder)) do
+  for i,v in ipairs(enumdir(baseFolder)) do
     if love.filesystem.isDirectory(baseFolder..v) then
       tree[v] = getFolderTree(baseFolder..v..'/')
     end
@@ -155,7 +162,8 @@ function loader.init()
   
     -- Custom *.ttf font loading 
     loader.extFont = {}
-    foreach(love.filesystem.enumerate(DefaultBaseExternalFontPath), function(_,font)
+
+    foreach(enumdir(DefaultBaseExternalFontPath), function(_,font)
     local f = font:match('(.+)%.ttf$')
       if f then
         loader.extFont[f] = setmetatable({__fontFile = font},baseExtFontMetatable)
