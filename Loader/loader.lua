@@ -55,9 +55,17 @@ local function getFilePath(fileName,basePath,validFormats)
   end
 end
 
+local function getDirectoryItems(directory)
+  if love.filesystem.enumerate then
+    return love.filesystem.enumerate(directory)
+  else
+    return love.filesystem.getDirectoryItems(directory)
+  end
+end
+
 local function getFolderTree(baseFolder)
   local tree = {__folder = baseFolder}
-  for i,v in ipairs(love.filesystem.enumerate(baseFolder)) do
+  for i,v in ipairs(getDirectoryItems(baseFolder)) do
     if love.filesystem.isDirectory(baseFolder..v) then
       tree[v] = getFolderTree(baseFolder..v..'/')
     end
@@ -155,7 +163,7 @@ function loader.init()
   
     -- Custom *.ttf font loading 
     loader.extFont = {}
-    foreach(love.filesystem.enumerate(DefaultBaseExternalFontPath), function(_,font)
+    foreach(getDirectoryItems(DefaultBaseExternalFontPath), function(_,font)
     local f = font:match('(.+)%.ttf$')
       if f then
         loader.extFont[f] = setmetatable({__fontFile = font},baseExtFontMetatable)
