@@ -1,5 +1,5 @@
 __love2d-assets-loader__ is a library for assets loading on demand.
-It works with [Löve2D](http://love2d.org) framework (compatible with Löve __0.8.0__).
+It works with [Löve2D](http://love2d.org) framework (compatible with Löve __0.8.0__ and __0.9.x__).
 The aim of this utility is to simplify in-game assets (fonts, audio, images) loading and management.
 
 __love2d-assets-loader__ have been highy inspired by [Vrld](https://github.com/vrld/)'s [Proxy](https://github.com/vrld/Princess/blob/master/main.lua) function.
