@@ -14,7 +14,7 @@ __love2d-assets-loader__ have been highy inspired by [Vrld](https://github.com/v
 * Loads [.png](http://en.wikipedia.org/wiki/PNG), [.jpg](https://en.wikipedia.org/wiki/JPEG) and [.bmp](http://en.wikipedia.org/wiki/BMP_file_format) [images](https://love2d.org/wiki/Image)
 
 ##Installation
-Put the file [loader.lua](https://github.com/Yonaba/love2d-assets-loader/blob/master/Loader/loader.lua) inside your project folder.<br/>
+Put the file [loader.lua](https://raw.githubusercontent.com/Yonaba/love2d-assets-loader/master/Loader/loader.lua) inside your project folder.<br/>
 Call it using the __require__ function.<br/>
 It will return a reference to the public interface as a regular Lua table.
 
