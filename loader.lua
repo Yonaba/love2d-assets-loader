@@ -43,7 +43,7 @@ local DefaultBaseFontSize = 12
 -- Private helpers
 local checkDirExistence = function(path) 
   path = path:match('/$') and path or path..'/'
-  assert(love.filesystem.isDirectory(path),'Folder not found!')
+  assert(love.filesystem.getInfo(path).type == "directory",'Folder not found!')
   return path
 end
 
@@ -57,8 +57,8 @@ end
 
 local function getFolderTree(baseFolder)
   local tree = {__folder = baseFolder}
-  for i,v in ipairs(love.filesystem.enumerate(baseFolder)) do
-    if love.filesystem.isDirectory(baseFolder..v) then
+  for i,v in ipairs(love.filesystem.getDirectoryItems(baseFolder)) do
+    if love.filesystem.getInfo(baseFolder..v).type == "directory" then
       tree[v] = getFolderTree(baseFolder..v..'/')
     end
   end
@@ -155,7 +155,7 @@ function loader.init()
   
     -- Custom *.ttf font loading 
     loader.extFont = {}
-    foreach(love.filesystem.enumerate(DefaultBaseExternalFontPath), function(_,font)
+    foreach(love.filesystem.getDirectoryItems(DefaultBaseExternalFontPath), function(_,font)
     local f = font:match('(.+)%.ttf$')
       if f then
         loader.extFont[f] = setmetatable({__fontFile = font},baseExtFontMetatable)
