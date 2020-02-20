@@ -9,7 +9,7 @@ __love2d-assets-loader__ have been highy inspired by
 [Vrld](https://github.com/vrld/)'s
 [Proxy](https://github.com/vrld/Princess/blob/master/main.lua) function.
 
-##Features
+## Features
 
 * Loads required assets __on demand__.
 
