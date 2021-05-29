@@ -32,13 +32,13 @@ local setmetatable, require, assert = setmetatable, require, assert
 local floor = math.floor
 
 -- Base config
-local DefaultBaseExternalFontPath = 'assets/fonts/'
-local DefaultBaseImagePath = 'assets/img/'
-local DefaultBaseAudioPath = 'assets/audio/'
+local base_font_path = 'assets/fonts/'
+local base_image_path = 'assets/img/'
+local base_audio_path = 'assets/audio/'
 
-local DefaultBaseAudioFormats = {'.ogg', '.wav', '.mp3'}
-local DefaultBaseImgFormats = {'.png', '.jpg', '.bmp'}
-local DefaultBaseFontSize = 12
+local base_audio_formats = {'.ogg', '.wav', '.mp3'}
+local base_image_formats = {'.png', '.jpg', '.bmp'}
+local base_font_size = 12
 
 -- Private helpers
 local checkDirExistence = function(path) 
@@ -66,7 +66,7 @@ local function getFolderTree(baseFolder)
 end
 
 local baseImgMetatable = {__index = function(t,k)
-  local file = getFilePath(k,t.__folder,DefaultBaseImgFormats)
+  local file = getFilePath(k,t.__folder,base_image_formats)
   t[k] = love.graphics.newImage(file)
   return t[k]
 end}
@@ -76,36 +76,36 @@ local baseFontMetatable = {__index = function(self,k)
     return self[k]
   end,
   __call = function(self,k) 
-    k = k or DefaultBaseFontSize 
+    k = k or base_font_size 
     return self[k] 
   end}
-    
+
 local baseExtFontMetatable = {__index = function(self,k)
-    self[k] = love.graphics.newFont(DefaultBaseExternalFontPath .. self.__fontFile)
+    self[k] = love.graphics.newFont(base_font_path .. self.__fontFile)
     return self[k]
   end,
   __call = function(self,k)
-    k = k or DefaultBaseFontSize
-    return self[k] 
+    k = k or base_font_size
+    return self[k]
 end}
 
 local baseAudioStaticMetatable = {__index = function(self,k)
-    self[k] = love.audio.newSource(getFilePath(k,DefaultBaseAudioPath,DefaultBaseAudioFormats),'static')
+    self[k] = love.audio.newSource(getFilePath(k,base_audio_path,base_audio_formats),'static')
     return self[k]
   end,
   __call = function(self,k) 
-    return self[k] 
+    return self[k]
 end}
- 
+
 local baseAudioStreamMetatable = {__index = function(self,k)
-    self[k] = love.audio.newSource(getFilePath(k,DefaultBaseAudioPath,DefaultBaseAudioFormats),'stream')
+    self[k] = love.audio.newSource(getFilePath(k,base_audio_path,base_audio_formats),'stream')
     return self[k]
   end,
   __call = function(self,k) 
-    return self[k] 
-end}     
+    return self[k]
+end}
 
-function setImgMeta(t)
+local function setImgMeta(t)
   return setmetatable(t,baseImgMetatable)
 end
 
@@ -120,60 +120,57 @@ end
 local loader = {}
 
 -- Base Setters
-loader.setBaseFontDir = function(path)
-  dirPath = checkDirExistence(path)
-  DefaultBaseExternalFontPath = dirPath or DefaultBaseExternalFontPath
+loader.set_base_font_dir = function(path)
+  local dirPath = checkDirExistence(path)
+  base_font_path = dirPath or base_font_path
 end
 
-loader.setBaseImageDir = function(path)
-  dirPath = checkDirExistence(path)
-  DefaultBaseImagePath = dirPath or DefaultBaseImagePath
+loader.set_base_image_dir = function(path)
+  local dirPath = checkDirExistence(path)
+  base_image_path = dirPath or base_image_path
 end
 
-loader.setBaseAudioDir = function(path)
-  dirPath = checkDirExistence(path)
-  DefaultBaseAudioPath = dirPath or DefaultBaseAudioPath
+loader.set_base_audio_dir = function(path)
+  local dirPath = checkDirExistence(path)
+  base_audio_path = dirPath or base_audio_path
 end
 
-loader.setBaseFontSize = function(number)
+loader.set_base_font_size = function(number)
   assert(tonumber(number) and number > 1 and floor(number)==number,
     ('Wrong argument type. Positive integer expected, got %s'):format(type(number)))
-  DefaultBaseFontSize = number
+  base_font_size = number
 end
 
 -- Base Getters
-loader.getBaseFontDir = function() return DefaultBaseExternalFontPath end
-loader.getBaseImageDir = function() return DefaultBaseImagePath end
-loader.getBaseAudioDir = function() return DefaultBaseAudioPath end
-loader.getBaseFontSize = function() return DefaultBaseFontSize end
+loader.get_base_font_dir = function() return base_font_path end
+loader.get_base_image_dir = function() return base_image_path end
+loader.get_base_audio_dir = function() return base_audio_path end
+loader.get_base_font_size = function() return base_font_size end
 
 function loader.init()  
-  -- Access to Love's default font (Vera.ttf)
   if love._modules.graphics then
-    loader.Font = {}
-    loader.Font = setmetatable({}, baseFontMetatable)
-  
-    -- Custom *.ttf font loading 
-    loader.extFont = {}
-    foreach(love.filesystem.getDirectoryItems(DefaultBaseExternalFontPath), function(_,font)
+    -- Custom *.ttf font loading and Love's default font (Vera.ttf)
+    loader.font = {}
+    foreach(love.filesystem.getDirectoryItems(base_font_path), function(_,font)
     local f = font:match('(.+)%.ttf$')
       if f then
-        loader.extFont[f] = setmetatable({__fontFile = font},baseExtFontMetatable)
+        loader.font[f] = setmetatable({__fontFile = font},baseExtFontMetatable)
       end
     end)
+    loader.font.default = setmetatable({}, baseFontMetatable)
   end
   -- Image loading
   if love._modules.graphics and love._modules.image then
-    loader.Image = {}
-    loader.Image = recurseSetImgMeta(getFolderTree(DefaultBaseImagePath))
+    loader.image = {}
+    loader.image = recurseSetImgMeta(getFolderTree(base_image_path))
   end
   -- Load static audio sources
   if love._modules.audio and love._modules.sound then
-    loader.Audio = {}
-    loader.Audio.Static = setmetatable({}, baseAudioStaticMetatable)
+    loader.audio = {}
+    loader.audio.static = setmetatable({}, baseAudioStaticMetatable)
 
     -- Load streaming audio sources
-    loader.Audio.Stream = setmetatable({}, baseAudioStreamMetatable)
+    loader.audio.stream = setmetatable({}, baseAudioStreamMetatable)
   end
 end
 
