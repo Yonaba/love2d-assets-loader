@@ -28,11 +28,11 @@ You will have to specify the paths to your __Audio__, __Font__ and __Image__ ass
 This should be done inside <tt>love.load</tt> callback.
 
 ```lua
-function love.load()  
+function love.load()
   loader = require 'loader'
-  loader.setBaseImageDir('img')
-  loader.setBaseAudioDir('audio')
-  loader.setBaseFontDir('fonts')
+  loader.set_base_image_dir('img')
+  loader.set_base_audio_dir('audio')
+  loader.set_base_font_dir('fonts')
   loader.init() -- Do not forget this!
 end  
 ```
@@ -42,17 +42,17 @@ And that's it!
 ##Loading Fonts
 ###Loading Löve default font
 
-Löve default font can be accessed via <tt>loader.Font</tt>
+Löve default font can be accessed via <tt>loader.font</tt>
 
 ```lua
 function love.draw()
-  love.graphics.setFont(loader.Font[15]) -- Love default with size 15
-  love.graphics.setFont(loader.Font(15)) -- Same as before
+  love.graphics.setFont(loader.font.default[15]) -- Love default with size 15
+  love.graphics.setFont(loader.font.default(15)) -- Same as before
   
-  love.graphics.setFont(loader.Font[18]) -- Love default with size 18
-  love.graphics.setFont(loader.Font(18)) -- Same as before
+  love.graphics.setFont(loader.font.default[18]) -- Love default with size 18
+  love.graphics.setFont(loader.font.default(18)) -- Same as before
   
-  love.graphics.setFont(loader.Font()) -- Whith no arg, will use a customisable default font size
+  love.graphics.setFont(loader.font.default()) -- Whith no arg, will use a customisable default font size
 end
 ```
 
@@ -63,46 +63,46 @@ Löve custom fonts can be accessed via <tt>loader.extFont</tt>
 ```lua
 function love.draw()
   -- Assuming you have a font named Arial.ttf inside your base font folder.
-  love.graphics.setFont(loader.extFont.Arial[15]) -- Arial font size 15
-  love.graphics.setFont(loader.extFont.Arial(15)) -- Same as before
+  love.graphics.setFont(loader.font.Arial[15]) -- Arial font size 15
+  love.graphics.setFont(loader.font.Arial(15)) -- Same as before
   
-  love.graphics.setFont(loader.extFont.Arial[18]) -- Arial font size 18
-  love.graphics.setFont(loader.extFont.Arial(18)) -- Same as before
+  love.graphics.setFont(loader.font.Arial[18]) -- Arial font size 18
+  love.graphics.setFont(loader.font.Arial(18)) -- Same as before
   
-  love.graphics.setFont(loader.extFont.Arial()) -- Whith no arg, will use a customisable default font size
+  love.graphics.setFont(loader.font.Arial()) -- Whith no arg, will use a customisable default font size
 end
 ```
 
 ##Loading Audio
 
-Audio files (.ogg, .wav and .mp3) can be loaded via <tt>loader.Audio.Stream</tt> (streaming playback) or <tt>loader.Audio.Static</tt> (static playback).
+Audio files (.ogg, .wav and .mp3) can be loaded via <tt>loader.audio.stream</tt> (streaming playback) or <tt>loader.audio.static</tt> (static playback).
 
 ```lua
   -- Assuming you have an audio file name 'Love.ogg' in your base audio folder
-  love.audio.play(loader.Audio.Stream.Love) -- Will be streamed
-  love.audio.play(loader.Audio.Static.Love) -- will be decoded before playback
+  love.audio.play(loader.audio.stream.Love) -- Will be streamed
+  love.audio.play(loader.audio.static.Love) -- will be decoded before playback
   
   -- Assuming you have an audio file name 'tick.wav' in your base audio folder
-  love.audio.play(loader.Audio.Stream.tick) -- Will be streamed
-  love.audio.play(loader.Audio.Static.tick) -- will be decoded before playback
+  love.audio.play(loader.audio.stream.tick) -- Will be streamed
+  love.audio.play(loader.audio.static.tick) -- will be decoded before playback
 
   -- Assuming you have an audio file name 'stream.mp3' in your base audio folder
-  love.audio.play(loader.Audio.Stream.stream) -- Will be streamed
-  love.audio.play(loader.Audio.Static.stream) -- will be decoded before playback
+  love.audio.play(loader.audio.stream.stream) -- Will be streamed
+  love.audio.play(loader.audio.static.stream) -- will be decoded before playback
 ```
 
 ##Loading Images
 
-Images files (.png and .jpg) can be loaded via <tt>loader.Image</tt>
+Images files (.png and .jpg) can be loaded via <tt>loader.image</tt>
 
 ```lua
 function love.draw()
   -- Assuming you have a 'player.png' or 'player.jpg' file in your base image folder
-  love.graphics.draw(loader.Image.player,0,0)
+  love.graphics.draw(loader.image.player,0,0)
 end
 ```
 
-A very interesting feature here is that <tt>loader.Image</tt> supports nested folders.
+A very interesting feature here is that <tt>loader.image</tt> supports nested folders.
 Say that in your base image folder (here, __"img/"__) you have the following tree:
 
     img/
@@ -116,34 +116,34 @@ Say that in your base image folder (here, __"img/"__) you have the following tre
 	
 ```lua
 function love.draw()
-  love.graphics.draw(loader.Image.Maps.Ground.g1,0,0) -- draws 'img/Maps/Ground/g1.png'
-  love.graphics.draw(loader.Image.Maps.map2,0,0) -- draws 'img/Maps/map2.jpg'
-  love.graphics.draw(loader.Image.player,0,0) -- draws 'img/player.png'
+  love.graphics.draw(loader.image.Maps.Ground.g1,0,0) -- draws 'img/Maps/Ground/g1.png'
+  love.graphics.draw(loader.image.Maps.map2,0,0) -- draws 'img/Maps/map2.jpg'
+  love.graphics.draw(loader.image.player,0,0) -- draws 'img/player.png'
 end
 ```
 
 ##Public Interface
 ###Setters
-* <tt>loader.setBaseFontDir(dir)</tt>: sets <tt>dir</tt> as the base font folder.
-* <tt>loader.setBaseImageDir(dir)</tt>: sets <tt>dir</tt> as the base image folder
-* <tt>loader.setBaseAudioDir(dir)</tt>: sets <tt>dir</tt> as the base audio folder
-* <tt>loader.setBaseFontSize(integer)</tt>: sets <tt>integer</tt> as the default font size
+* <tt>loader.set_base_font_dir(dir)</tt>: sets <tt>dir</tt> as the base font folder.
+* <tt>loader.set_base_image_dir(dir)</tt>: sets <tt>dir</tt> as the base image folder
+* <tt>loader.set_base_audio_dir(dir)</tt>: sets <tt>dir</tt> as the base audio folder
+* <tt>loader.set_base_font_size(integer)</tt>: sets <tt>integer</tt> as the default font size
 
 ###Getters
-* <tt>loader.getBaseFontDir(dir)</tt>: returns the base font folder.
-* <tt>loader.getBaseImageDir(dir)</tt>: returns the base image folder
-* <tt>loader.getBaseAudioDir(dir)</tt>: returns the base audio folder
-* <tt>loader.getBaseFontSize(integer)</tt>: returns the default font size
+* <tt>loader.get_base_font_dir(dir)</tt>: returns the base font folder.
+* <tt>loader.get_base_image_dir(dir)</tt>: returns the base image folder
+* <tt>loader.get_base_audio_dir(dir)</tt>: returns the base audio folder
+* <tt>loader.get_base_font_size(integer)</tt>: returns the default font size
 
 ###Initialization
 * <tt>loader.init()</tt>: Inits the loader. Should be called after using setters.
 
 ###Loading routines
-* <tt>loader.Font</tt>: access to Löve default font
-* <tt>loader.extFont</tt>: access to custom true type fonts
-* <tt>loader.Audio.Stream</tt>: loads audio files for streaming playback.
-* <tt>loader.Audio.Static</tt>: loads audio files for static playback.
-* <tt>loader.Image</tt>: loads images
+* <tt>loader.font.default</tt>: access to Löve default font
+* <tt>loader.font</tt>: access to custom true type fonts
+* <tt>loader.audio.stream</tt>: loads audio files for streaming playback.
+* <tt>loader.audio.static</tt>: loads audio files for static playback.
+* <tt>loader.image</tt>: loads images
 
 ##Final Notes
 
@@ -151,9 +151,9 @@ __love2d-assets-loader__ checks for <tt>love</tt> namespace before running, to p
 without [Love2D](https://love2d.org).
 Also, parts of __love2d-assets-loader__ are relevant to [Love2D](https://love2d.org)'s modules.
 
-* <tt>loader.Audio</tt> requires <tt>love.audio</tt> and <tt>love.sound</tt>
-* <tt>loader.Image</tt> requires <tt>love.image</tt> and <tt>love.graphics</tt>
-* <tt>loader.Font</tt> and <tt>loader.extFont</tt> both require <tt>love.graphics</tt>
+* <tt>loader.audio</tt> requires <tt>love.audio</tt> and <tt>love.sound</tt>
+* <tt>loader.image</tt> requires <tt>love.image</tt> and <tt>love.graphics</tt>
+* <tt>loader.font</tt> requires <tt>love.graphics</tt>
 
 Be sure to have these modules activated through your [configuration file](https://love2d.org/wiki/Config_Files).
 
